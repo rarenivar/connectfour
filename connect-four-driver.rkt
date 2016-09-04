@@ -8,13 +8,15 @@
 
 ;;; These will eventually be command line arguments.
 (define exe-1 "connect-four-naive")
-(define exe-2 "connect-four-naive")
+(define args-1 "")
+(define exe-2 "/usr/local/racket/bin/racket")
+(define args-2 "connect-four-naive.rkt")
 
 ;;; (new-grid grid move player) -> (listof (listof (integer-in 0 2)))
 ;;;   grid : (listof (listof (integer-in 0 2)))
 ;;;   move : exact-positive-integer?
 ;;;   player : (integer-in 1 2)
-;;; Retruns a new grid with the specified move by player.
+;;; Returns a new grid with the specified move by player.
 (define (new-grid grid move player)
   (for/list ((col (in-list grid))
              (i (in-naturals)))
@@ -84,10 +86,10 @@
                                      #:mode 'text #:exists 'replace))
   ;; Create the subprocesses.
   (define-values (process-1 process-stdout-1 process-stdin-1 process-stderr-1)
-    (subprocess #f #f stderr-1 exe-1 ""))
+    (subprocess #f #f stderr-1 exe-1 args-1))
   (sleep .1)
   (define-values (process-2 process-stdout-2 process-stdin-2 process-stderr-2)
-    (subprocess #f #f stderr-2 exe-1 ""))
+    (subprocess #f #f stderr-2 exe-2 args-2))
   ;; Create vector of standard ports.
   (define process-stdout (vector #f process-stdout-1 process-stdout-2))
   (define process-stdin (vector #f process-stdin-1 process-stdin-2))
