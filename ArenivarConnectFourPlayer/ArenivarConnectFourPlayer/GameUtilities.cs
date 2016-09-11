@@ -62,6 +62,7 @@ namespace ArenivarConnectFourPlayer
 					for (int i = row, j = col; i < (row + 4); i++, j++) {
 						if (gm.Grid [j] [i] != gm.Player) {
 							gameWon = false;
+							break;
 						}
 					}
 				}
@@ -72,6 +73,7 @@ namespace ArenivarConnectFourPlayer
 					for (int i = row, j = col; i < (row + 4); i++, j--) {
 						if (gm.Grid [j] [i] != gm.Player) {
 							gameWon = false;
+							break;
 						}
 					}
 				}
@@ -82,6 +84,7 @@ namespace ArenivarConnectFourPlayer
 					for (int j = col; j < (col + 4); j++) {
 						if (gm.Grid [j] [row] != gm.Player) {
 							gameWon = false;
+							break;
 						}
 					}
 				}
