@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace ArenivarConnectFourPlayer
 {
@@ -7,93 +8,72 @@ namespace ArenivarConnectFourPlayer
 	{
 		public static void Main (string[] args)
 		{
-			/*
-			 //////////
-			string jsonstring = "";
-			string line;
-			/////////
-			*/
+			// we only need to check once if we're making the first move
+			bool checkFirstMove = false;
+			string gameStateData;
+			/* TODO: only a temporary variable, remove after logic for
+			 * the alpha-pruning algorithm is implemented!
+			 * */
+			Random rnd = new Random();
+			int chosenCol;
 
-/*
+
+			//Config.DepthSearch = 4;
+			//int m = int.MaxValue;
+			//int mi = int.MinValue;
+			//Console.Error.WriteLine ("max value = {0}  ---   min value = {1} and deotp = {2}", m, mi, Config.DepthSearch);
+
 			string json = @"{
 			'grid': [
-					[0,0,0,0,0,0],
-					[0,0,0,0,0,0],
-					[0,0,0,0,0,0],
-					[0,0,0,0,0,2],
+					[0,0,0,3,0,0],
+					[0,0,0,3,0,0],
+					[0,0,0,3,0,0],
+					[0,0,0,3,0,0],
 					[0,0,0,0,0,0],
 					[0,0,0,0,0,0],
 					[0,0,0,0,0,0]
 					],
 			'height':6,
-			'player':1,
+			'player':2,
 			'width':7
 			}";
-*/
+			GameState gm2 = JsonConvert.DeserializeObject<GameState> (json);
+			Console.Error.WriteLine ("is it full? " + GameUtilities.IsGridFull(gm2));
+			//GameState gm3 = GameUtilities.MakeMove (gm2, 0);
+			bool gameover = GameUtilities.CheckGameOver (gm2);
+			Console.Error.WriteLine ("is it full? " + GameUtilities.IsGridFull(gm2));
+		/*
+			Console.Error.WriteLine ("Arenivar player starting...");
 
-			//GameState gs = JsonConvert.DeserializeObject<GameState>(json);
-			//Console.Out.WriteLine("the height is " + gs.Height);
-			//Console.Out.WriteLine("the width is " + gs.Width);
-			//Console.Out.WriteLine("the player is " + gs.Player);
-			//Console.Out.WriteLine("the column 4th column has a value of " + gs.Grid[3][5]);
-
-
-			Console.Error.WriteLine ("Arenivar player...");
-			string gameStateData;
-			Random rnd = new Random();
-			int chosenCol;
 			while ((gameStateData = Console.ReadLine ()) != null && gameStateData != "") {
+
+				// getting the JSON data into our GameState object
 				GameState gm = JsonConvert.DeserializeObject<GameState>(gameStateData);
 
+				// checking if we're making the first move, we only need to do this once
+				if (!checkFirstMove) {
+					checkFirstMove = true;
+					if (GameUtilities.IsItTheFirstMove (gm)) {
+						Console.Error.WriteLine ("Making first move");
+					} else {
+						Console.Error.WriteLine ("Making second move");
+					}
+				}
+				bool isFull = GameUtilities.IsGridFull (gm);
+				Console.Error.WriteLine ("is it full? " + isFull);
+
+				// for now, we're choosing the column randomly
 				do {
 					chosenCol = rnd.Next(0, ( gm.Width -1 ));
-				}
+				} // do it again if the column is full!
 				while (!gm.Grid[chosenCol].Contains(0));
 
+				// sending data to standard error and output
 				Console.Error.WriteLine(JsonConvert.SerializeObject(gm));
 				Console.Error.WriteLine ("{\"move\":" + chosenCol + "}");
 				Console.Out.WriteLine("{\"move\":" + chosenCol + "}");
 				Console.Out.Flush ();
-				
-			}
-
-
-
-
-
-
-
-
-			/*line = Console.ReadLine ();
-			jsonstring = line;
-			Console.Error.WriteLine (jsonstring);
-			//string theOutput = @"{'move':3}";
-			//Console.Out.WriteLine(JsonConvert.Se
-
-			Console.Out.WriteLine("{\"move\":3}");
-			Console.Out.Flush ();
-*/
-
-
-			/*
-			/////////
-			while ((line = Console.ReadLine ()) != null && line != "") {
-				//jsonstring = line;
-				//GameState game = JsonConvert.DeserializeObject<GameState> (jsonstring);
-				//Console.Error.WriteLine (jsonstring);
-				Console.Out.WriteLine("{\"move\":3}");
-				Console.Out.Flush ();
-
-			}
-			////////////
-			*/
-
-
-			//Console.Error.WriteLine ("done");
-			//Console.Out.WriteLine ("Hello World!");
-			//Console.Error.WriteLine (jsonstring);
-			//Console.Out.Flush ();
-
+			}*/
 		}
 	}
 }
