@@ -1,12 +1,19 @@
 ﻿<Properties StartupItem="ArenivarConnectFourPlayer/ArenivarConnectFourPlayer.csproj">
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ArenivarConnectFourPlayer/Program.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ArenivarConnectFourPlayer/GameUtilities.cs">
     <Files>
-      <File FileName="ArenivarConnectFourPlayer/Program.cs" Line="25" Column="44" />
+      <File FileName="ArenivarConnectFourPlayer/Program.cs" Line="37" Column="15" />
+      <File FileName="ArenivarConnectFourPlayer/GameUtilities.cs" Line="121" Column="6" />
+      <File FileName="ArenivarConnectFourPlayer/GameState.cs" Line="1" Column="1" />
+      <File FileName="ArenivarConnectFourPlayer/Move.cs" Line="1" Column="1" />
+      <File FileName="ArenivarConnectFourPlayer/Config.cs" Line="1" Column="1" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/ramiro/schoolprojects/connectfour/ArenivarConnectFourPlayer/ArenivarConnectFourPlayer/Program.cs" line="77" column="1" />
+      <Breakpoint file="/home/ramiro/schoolprojects/connectfour/ArenivarConnectFourPlayer/ArenivarConnectFourPlayer/Program.cs" line="44" column="77" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>

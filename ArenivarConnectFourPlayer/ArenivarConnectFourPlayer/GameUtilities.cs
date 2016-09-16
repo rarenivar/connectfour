@@ -45,9 +45,8 @@ namespace ArenivarConnectFourPlayer
 		/// <param name="gm">Gm.</param>
 		public static bool CheckCellForConnectFour (GameState gm, int col, int row) {
 			bool gameWon = false;
-			// vertical win
 			if (row < (gm.Height - 3)) {
-				
+				// vertical win
 				gameWon = true;
 				for (int i = row; i < (row + 4); i++) {
 					if (gm.Grid [col] [i] != gm.Player) {
@@ -55,7 +54,6 @@ namespace ArenivarConnectFourPlayer
 						break;
 					}
 				}
-			
 				// right diagonal win
 				if (col < (gm.Width - 3) && gameWon == false) { 
 					gameWon = true; 
@@ -66,7 +64,6 @@ namespace ArenivarConnectFourPlayer
 						}
 					}
 				}
-
 				// left diagonal
 				if (col > 2 && gameWon == false) { 
 					gameWon = true; 
@@ -78,16 +75,16 @@ namespace ArenivarConnectFourPlayer
 					}
 				}
 			}
-				// horizontal win
-				if (col < (gm.Width - 3) && gameWon == false) {
-					gameWon = true;
-					for (int j = col; j < (col + 4); j++) {
-						if (gm.Grid [j] [row] != gm.Player) {
-							gameWon = false;
-							break;
-						}
+			// horizontal win
+			if (col < (gm.Width - 3) && gameWon == false) {
+				gameWon = true;
+				for (int j = col; j < (col + 4); j++) {
+					if (gm.Grid [j] [row] != gm.Player) {
+						gameWon = false;
+						break;
 					}
 				}
+			}
 			return gameWon;
 		}
 
@@ -110,7 +107,7 @@ namespace ArenivarConnectFourPlayer
 		/// <param name="colNumber">Col number.</param>
 		public static GameState MakeMove(GameState gm, int colNumber)
 		{
-			if (colNumber > gm.Width || IsGridFull(gm)) 
+			if (colNumber >= gm.Width || IsGridFull(gm)) 
 			{
 				Console.Error.WriteLine ("MakeMove function error: column passed to function not valid or grid is full");
 				return null;
@@ -128,110 +125,120 @@ namespace ArenivarConnectFourPlayer
 
 		}
 
-		/*
-		public static int score(GameState gm){
-			int score = 0;
-			for (int r= 0; r < gm.Height; r++) 
-			{
-				if (r <= gm.Height-4) 
-				{
-					for (int c = 0; c < gm.Width; c++) 
-					{
-						score += score2(r, c, gm);
-					}
-				}
-				else 
-				{
-					for (int c = 0; c <= gm.Width-4; c++) 
-					{
-						score += score2(r, c, gm);
-					}
-				}
+		public static int calculateScore(int totalScore, int value) {
+			int theTotalScore = totalScore;
+			if (value > 2) {
+				theTotalScore = totalScore + (int)Math.Pow (value, 3);
+			} else if (value == 2) {
+				theTotalScore = totalScore + (int)Math.Pow (value, 2);
+			} else if (value == 1) {
+				theTotalScore = totalScore + value;
 			}
-
-			return score;
+			return theTotalScore;
 		}
-*/
-		/**
- 		* Helper method to get the score of a board
- 		*/
-		/*
-		public static int score2(int row, int col, GameState gm){
-			Console.Error.WriteLine ("in the score2 fuanction");
-			int score = 0;
-			bool unblocked = true;
-			int tally = 0;
-			//int r, c;
-			if (row < gm.Height-4) {
-				//check up
-				unblocked = true;
-				tally = 0;
-				for (int r=row; r<row+4; r++) {
 
-					if (gm.Grid[r][col] == gm.Player) {
-						unblocked = false;
-					}
-					if (gm.Grid[r][col] == gm.Player) {
-						tally ++;
-					}
-				}
-				if (unblocked == true) {
-					score = score + (tally*tally*tally*tally);
-				}
-
-				if (col < gm.Width-4) {
-					//check up and to the right
-					unblocked = true;
-					tally = 0;
-					for (int r=row, c=col; r<row+4; r++, c++) {
-						if (gm.Grid[r][c] == gm.Player) {
-							unblocked = false;
-						}
-						if (gm.Grid[r][c] == gm.Player) {
-							tally ++;
-						}
-					}
-					if (unblocked == true) {
-						score = score + (tally*tally*tally*tally);
-					}
+		/// <summary>
+		/// Gets the grid score.
+		/// </summary>
+		/// <returns>The grid score.</returns>
+		/// <param name="gm">Gm.</param>
+		public static int getGridScore(GameState gm) {
+			int totalValue = 0;
+			for (int j = 0; j < (gm.Width - 3); j++) {
+				for (int i = (gm.Height - 1); i >= 0; i--) {
+					totalValue += GameUtilities.getCellScore (gm, j, i);
 				}
 			}
-			if (col < gm.Width-4) {
-				//check right
-				unblocked = true;
-				tally = 0;
-				for (int c=col; c<col+4; c++) {
-					if (gm.Grid[row][c] == gm.Player) {
-						unblocked = false;
-					}
-					if (gm.Grid[row][c] == gm.Player) {
-						tally ++;
-					}
-				}
-				if (unblocked == true) {
-					score = score + (tally*tally*tally*tally);
-				}
+			return totalValue;
+		}
 
-				if (row > 2) {
-					//check down and to the right
-					unblocked = true;
-					tally = 0;
-					for (int r=row, c=col; c<col+4; r--, c++) {
-						if (gm.Grid[r][c] == gm.Player) {
-							unblocked = false;
+		/// <summary>
+		/// Goes through the board to see how many ways there are to win
+		/// </summary>
+		/// <returns>The board value.</returns>
+		/// <param name="gm">Gm.</param>
+		public static int getCellScore(GameState gm, int col, int row) {
+
+			// players
+			int currentPlayer = (gm.Player == 1) ? 1 : 2;
+			int competitor = (currentPlayer == 1) ? 2 : 1;
+
+			bool isItWinnable = true;
+			// keeping track of the cell value
+			int totalScore = 0;
+			int value = 0;
+
+			if (col < (gm.Width - 3)) {
+				// check horizontal connect four
+				for (int j = col; j < (col + 4); j++) {
+					if (gm.Grid [j] [row] == currentPlayer) {
+						value++;
+					}
+					if (gm.Grid [j] [row] == competitor) {
+						isItWinnable = false;
+						break;
+					}
+				} // end check horizontal connect four
+				if (isItWinnable) {
+					totalScore = calculateScore (totalScore, value);
+				}
+				// check connect four down to the right diagonally
+				if (row  < (gm.Height - 3)) {
+					isItWinnable = true;
+					value = 0;
+					for (int j = col, i = row; j < (col + 4); j++, i++) {
+						if (gm.Grid [j] [i] == currentPlayer) {
+							value++;
 						}
-						if (gm.Grid[r][c] == gm.Player) {
-							tally ++;
+						if (gm.Grid [j] [i] == competitor) {
+							isItWinnable = false;
+							break;
 						}
 					}
-					if (unblocked == true) {
-						score = score + (tally*tally*tally*tally);
+					if (isItWinnable) {
+						totalScore = calculateScore (totalScore, value);
 					}
 				}
-			}
+			} // end col < (gm.Width -3)
+				
+			if (row >= 3) {
+				isItWinnable = true;
+				value = 0;
+				// check cells above
+				for (int i = row; i > (row - 4); i--) {
+					if (gm.Grid [col] [i] == currentPlayer) {
+						value++;
+					}
+					// check if the competitor is on top of the cell
+					if (gm.Grid [col] [i] == competitor) {
+						isItWinnable = false;
+						break;
+					}
+				} // end checks cells above
+				if (isItWinnable) {
+					totalScore = calculateScore (totalScore, value);
+				}
+				// check cells to the right diagonally
+				if (col < (gm.Width - 3)) {
+					isItWinnable = true;
+					value = 0;
 
-			return score;
+					for (int i = row, j = col; i > (row - 4); i--, j++) {
+						if (gm.Grid [j] [i] == currentPlayer) {
+							value++;
+						}
+						if (gm.Grid [j] [i] == competitor) {
+							isItWinnable = false;
+							break;
+						}
+					}
+					if (isItWinnable) {
+						totalScore = calculateScore (totalScore, value);
+					}
+				} // end check cells to the right diagonally
+			} // end row >= 3
+			return totalScore;
+		} // end getCellScore function
 
-		}*/
 	}
 }

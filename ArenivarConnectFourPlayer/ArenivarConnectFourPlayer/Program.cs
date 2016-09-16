@@ -25,9 +25,9 @@ namespace ArenivarConnectFourPlayer
 
 			string json = @"{
 			'grid': [
-					[0,0,0,0,0,0],
-					[0,0,0,0,0,0],
-					[0,0,0,0,0,0],
+					[0,0,0,2,2,2],
+					[0,0,0,0,1,2],
+					[0,0,0,2,0,2],
 					[0,0,0,0,0,0],
 					[0,0,0,0,0,0],
 					[0,0,0,0,0,0],
@@ -42,6 +42,8 @@ namespace ArenivarConnectFourPlayer
 			//GameState gm3 = GameUtilities.MakeMove (gm2, 0);
 			bool gameover = GameUtilities.CheckGameOver (gm2);
 			Console.Error.WriteLine ("is it full? " + GameUtilities.IsGridFull(gm2));
+			int value = GameUtilities.getGridScore (gm2);
+			Console.Error.WriteLine ("is it full? " + GameUtilities.IsGridFull (gm2));
 		/*
 			Console.Error.WriteLine ("Arenivar player starting...");
 
