@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace ArenivarConnectFourPlayer
 {
@@ -36,6 +38,15 @@ namespace ArenivarConnectFourPlayer
 				}
 			}
 			return gameWon;
+		}
+
+		public static bool IsItValidMove(GameState gm, int col) {
+			bool valid = false;
+			List<int> column = gm.Grid [col];
+			if (column.Contains (0)) {
+				valid = true;
+			}
+			return valid;
 		}
 
 		/// <summary>
@@ -107,17 +118,18 @@ namespace ArenivarConnectFourPlayer
 		/// <param name="colNumber">Col number.</param>
 		public static GameState MakeMove(GameState gm, int colNumber)
 		{
-			if (colNumber >= gm.Width || IsGridFull(gm)) 
+			GameState temp_gm = gm;
+			if (colNumber >= temp_gm.Width || IsGridFull(temp_gm)) 
 			{
 				Console.Error.WriteLine ("MakeMove function error: column passed to function not valid or grid is full");
 				return null;
 			}
-			for (int i = gm.Height-1; i >= 0; i--) 
+			for (int i = temp_gm.Height-1; i >= 0; i--) 
 			{
-				if (gm.Grid [colNumber] [i] == 0) 
+				if (temp_gm.Grid [colNumber] [i] == 0) 
 				{
-					gm.Grid [colNumber] [i] = gm.Player;
-					return gm;
+					temp_gm.Grid [colNumber] [i] = temp_gm.Player;
+					return temp_gm;
 				}
 			}
 			Console.Error.WriteLine ("MakeMove function error: column {0} is full, cannot make move", colNumber);
@@ -127,12 +139,14 @@ namespace ArenivarConnectFourPlayer
 
 		public static int calculateScore(int totalScore, int value) {
 			int theTotalScore = totalScore;
-			if (value > 2) {
-				theTotalScore = totalScore + (int)Math.Pow (value, 3);
+			if (value > 3) {
+				theTotalScore += (int) Math.Pow (value, value);
+			} else if (value == 3) {
+				theTotalScore += (int) Math.Pow (value, value);
 			} else if (value == 2) {
-				theTotalScore = totalScore + (int)Math.Pow (value, 2);
+				theTotalScore += (int) Math.Pow (value, value);
 			} else if (value == 1) {
-				theTotalScore = totalScore + value;
+				theTotalScore += value;
 			}
 			return theTotalScore;
 		}
@@ -240,5 +254,55 @@ namespace ArenivarConnectFourPlayer
 			return totalScore;
 		} // end getCellScore function
 
+		public static Move calculateMove(int min, int max, int searchDepth, GameState gm) {
+
+			int currentPlayer = gm.Player;
+			//int competitor = (currentPlayer == 1) ? 2 : 1;
+
+			Move tempMove, bestMove;
+			// our current best move is initialized with the lowest int value
+			bestMove = new Move (0, int.MinValue);
+
+			// go through all of the columns and start the alpha-beta running...
+			for (int j = 0; j < gm.Width; j++) {
+				//Console.Error.WriteLine ("player {0}, column {1}", currentPlayer, j);
+				if (GameUtilities.IsItValidMove(gm, j)) {
+					GameState temp_gm = GameUtilities.DeepCopy<GameState> (gm);
+					temp_gm.MakeMove (j);
+					//Console.WriteLine ("the player to move {0}",temp_gm.Player);
+					// if game is over after we make a move, it's a winning move
+					if (GameUtilities.IsGameOver (temp_gm)) {
+						tempMove = new Move (j, int.MaxValue);
+					} else if (currentPlayer == temp_gm.Player) {
+						tempMove = calculateMove (-min, -max, searchDepth, temp_gm);
+						tempMove.ColumnToMoveTo = j;
+					} else if (searchDepth > 0) {
+						tempMove = calculateMove (-min, -max, searchDepth - 1, temp_gm);
+						tempMove.MoveValue = -tempMove.MoveValue;
+						tempMove.ColumnToMoveTo = j;
+					} else {
+						tempMove = new Move(j, GameUtilities.getGridScore(temp_gm));
+					}
+					if (tempMove.MoveValue > bestMove.MoveValue) {
+						bestMove = new Move (tempMove.ColumnToMoveTo, tempMove.MoveValue);
+						min = Math.Max (min, bestMove.MoveValue);
+					}
+				}	
+			}
+			//Console.WriteLine (" the player is {2} - best move value: {0}, and column to move to {1}", bestMove.MoveValue, bestMove.ColumnToMoveTo, currentPlayer);
+			return bestMove;
+		}
+
+		public static T DeepCopy<T>(T obj)
+		{
+			using (MemoryStream stream = new MemoryStream())
+			{
+				BinaryFormatter formatter = new BinaryFormatter();
+				formatter.Serialize(stream, obj);
+				stream.Position = 0;
+
+				return (T)formatter.Deserialize(stream);
+			}
+		}
 	}
 }

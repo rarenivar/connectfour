@@ -4,7 +4,7 @@ namespace ArenivarConnectFourPlayer
 {
 	public static class Config
 	{
-		public const int SearchDepth = 5;
+		public const int SearchDepth = 4;
 	}
 }
 
