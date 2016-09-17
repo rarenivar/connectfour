@@ -7,7 +7,9 @@ namespace ArenivarConnectFourPlayer
 {
 	public static class GameUtilities
 	{
-		
+		public static int selfPlayerNum { set; get; }
+		public const int AlphaInitialValue = int.MinValue;
+		public const int BetaInitialValue = int.MaxValue;
 		/// <summary>
 		/// Determines if the player will make the first move
 		/// </summary>
@@ -176,7 +178,7 @@ namespace ArenivarConnectFourPlayer
 			// players
 			int currentPlayer = (gm.Player == 1) ? 1 : 2;
 			int competitor = (currentPlayer == 1) ? 2 : 1;
-
+			bool won = false;
 			bool isItWinnable = true;
 			// keeping track of the cell value
 			int totalScore = 0;
@@ -195,6 +197,9 @@ namespace ArenivarConnectFourPlayer
 				} // end check horizontal connect four
 				if (isItWinnable) {
 					totalScore = calculateScore (totalScore, value);
+					if (value == 3) {
+						won = true;
+					}
 				}
 				// check connect four down to the right diagonally
 				if (row  < (gm.Height - 3)) {
@@ -211,6 +216,9 @@ namespace ArenivarConnectFourPlayer
 					}
 					if (isItWinnable) {
 						totalScore = calculateScore (totalScore, value);
+						if (value == 3) {
+							won = true;
+						}
 					}
 				}
 			} // end col < (gm.Width -3)
@@ -231,6 +239,9 @@ namespace ArenivarConnectFourPlayer
 				} // end checks cells above
 				if (isItWinnable) {
 					totalScore = calculateScore (totalScore, value);
+					if (value == 3) {
+						won = true;
+					}
 				}
 				// check cells to the right diagonally
 				if (col < (gm.Width - 3)) {
@@ -248,9 +259,13 @@ namespace ArenivarConnectFourPlayer
 					}
 					if (isItWinnable) {
 						totalScore = calculateScore (totalScore, value);
+						if (value == 3) {
+							won = true;
+						}
 					}
 				} // end check cells to the right diagonally
 			} // end row >= 3
+			if (won) { return int.MaxValue / 3; }
 			return totalScore;
 		} // end getCellScore function
 
@@ -274,7 +289,7 @@ namespace ArenivarConnectFourPlayer
 					if (GameUtilities.IsGameOver (temp_gm)) {
 						tempMove = new Move (j, int.MaxValue);
 					} else if (currentPlayer == temp_gm.Player) {
-						tempMove = calculateMove (-min, -max, searchDepth, temp_gm);
+						tempMove = calculateMove (min, max, searchDepth, temp_gm);
 						tempMove.ColumnToMoveTo = j;
 					} else if (searchDepth > 0) {
 						tempMove = calculateMove (-min, -max, searchDepth - 1, temp_gm);
@@ -304,5 +319,72 @@ namespace ArenivarConnectFourPlayer
 				return (T)formatter.Deserialize(stream);
 			}
 		}
+
+
+		public static Move MaximizeValue(GameState gm, int searchDepth, int alpha, int beta){
+
+			Move maxMove;
+			int score = gm.CalculateScore ();
+
+			if (gm.IsCheckingDone (searchDepth, score)) {
+				return new Move (-1, score);
+			}
+				
+			maxMove = new Move (-1, int.MinValue);
+
+			for (int col = 0; col < gm.Width; col++) {
+				GameState tempgm = GameUtilities.DeepCopy<GameState> (gm);
+
+				if (tempgm.InsertIntoGrid (col)) {
+					Move tempMove = MinimizeValue (tempgm, (searchDepth - 1), alpha, beta);
+
+					if (maxMove.ColumnToMoveTo == -1 || tempMove.MoveValue > maxMove.MoveValue) {
+						maxMove.ColumnToMoveTo = col;
+						maxMove.MoveValue = tempMove.MoveValue;
+						alpha = tempMove.MoveValue;
+					}
+
+					if (alpha >= beta) {
+						return maxMove;
+					}
+				}
+
+			}
+			return maxMove;
+		}
+
+		public static Move MinimizeValue(GameState gm, int searchDepth, int alpha, int beta) {
+			Move minMove;
+			int score = gm.CalculateScore ();
+
+			if (gm.IsCheckingDone(searchDepth, score)) {
+				return new Move(-1, score);
+			}
+				 
+			minMove = new Move (-1, int.MaxValue);
+
+
+			for (int col = 0; col < gm.Width; col++) {
+				GameState tempgm = GameUtilities.DeepCopy<GameState> (gm);
+
+				if (tempgm.InsertIntoGrid (col)) {
+					Move tempMove = MaximizeValue (tempgm, (searchDepth - 1), alpha, beta);
+
+					if (minMove.ColumnToMoveTo == -1 || tempMove.MoveValue < minMove.MoveValue) {
+						minMove.ColumnToMoveTo = col;
+						minMove.MoveValue = tempMove.MoveValue;
+						beta = tempMove.MoveValue;
+					}
+
+					if (alpha >= beta) {
+						return minMove;
+					}
+				}
+
+			}
+			return minMove;
+		}
+
+		public enum Direction { Vertical, Horizontal, RightDiagonalUp, RightDiagonalDown }
 	}
 }
