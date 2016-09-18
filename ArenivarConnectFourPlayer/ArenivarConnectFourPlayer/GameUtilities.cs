@@ -60,7 +60,6 @@ namespace ArenivarConnectFourPlayer
 			Move maxMove;
 			// Keeps track of how valuable this grib state is
 			int score = gm.CalculateScore ();
-			Console.Error.WriteLine ("the score calculated for grid in max function is {0}", score);
 			// If the grid is full, we have a winning score or we've reach our depth limit, return a 
 			// this move
 			if (gm.IsCheckingDone (searchDepth, score)) {

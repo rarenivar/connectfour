@@ -55,7 +55,6 @@ namespace ArenivarConnectFourPlayer
 		public bool IsCheckingDone(int searchDepth, int theScore) {
 			if (searchDepth == 0 || theScore == this.WinningScore || 
 					theScore == -this.WinningScore || this.IsGridFull ()) {
-				Console.Error.WriteLine ("Checking done!");
 				return true;
 			}
 			return false;
@@ -67,9 +66,7 @@ namespace ArenivarConnectFourPlayer
 		/// <returns><c>true</c> If we were able to make the move into the column passed, <c>false</c> otherwise.</returns>
 		/// <param name="col">Col.</param>
 		public bool InsertIntoGrid(int col) {
-			if (col >= this.Width || this.IsGridFull() || !this.IsItValidMove(col)) 
-			{
-				Console.Error.WriteLine ("MakeMove function error: column passed to function not valid or grid is full, col number: {0}", col);
+			if (col >= this.Width || this.IsGridFull() || !this.IsItValidMove(col)) {
 				return false;
 			}
 			for (int i = this.Height-1; i >= 0; i--) 
