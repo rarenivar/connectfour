@@ -3,6 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 
+/**
+ * @author Ramiro Arenivar
+ * CSCI 5582 - Artificial Intelligence
+ * Prof. Williams
+ * ConnectFour program assignment
+ * */
 namespace ArenivarConnectFourPlayer
 {
 	/// <summary>
@@ -23,7 +29,7 @@ namespace ArenivarConnectFourPlayer
 		// How many levels down the tree we will go down. The algorithm will make 'better'
 		// moves the higher this number gets, but the higher the number the more processing
 		// time it takes to calculate a move
-		public const int SearchDepth = 4;
+		public const int SearchDepth = 8;
 
 		// Enum use to differenciate the different ways we need to check each grid cell
 		// to figure out its value

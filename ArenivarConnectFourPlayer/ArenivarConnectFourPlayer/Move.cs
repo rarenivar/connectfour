@@ -1,5 +1,11 @@
 ﻿using System;
 
+/**
+ * @author Ramiro Arenivar
+ * CSCI 5582 - Artificial Intelligence
+ * Prof. Williams
+ * ConnectFour program assignment
+ * */
 namespace ArenivarConnectFourPlayer
 {
 	/// <summary>
