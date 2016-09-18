@@ -325,7 +325,7 @@ namespace ArenivarConnectFourPlayer
 
 			Move maxMove;
 			int score = gm.CalculateScore ();
-
+			Console.Error.WriteLine ("the score calculated for grid in max function is {0}", score);
 			if (gm.IsCheckingDone (searchDepth, score)) {
 				return new Move (-1, score);
 			}

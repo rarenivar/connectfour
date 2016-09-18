@@ -55,7 +55,24 @@ namespace ArenivarConnectFourPlayer
 		}
 
 		public bool IsCheckingDone(int searchDepth, int theScore) {
-			if (searchDepth == 0 || theScore == this.GridScore || theScore == -this.GridScore || this.IsGridFull ()) {
+			/*if (searchDepth == 0 || theScore == this.WinningScore || theScore == -this.WinningScore || this.IsGridFull ()) {
+				Console.Error.WriteLine ("Checking done!");
+				return true;
+			}*/
+			if (searchDepth == 0) {
+				Console.Error.WriteLine ("search depth is 0");
+				return true;
+			}
+			if (theScore == this.WinningScore) {
+				Console.Error.WriteLine ("the score is the winning score");
+				return true;
+			}
+			if (theScore == -this.WinningScore) {
+				Console.Error.WriteLine ("the store is -- the winning score");
+				return true;
+			}
+			if (this.IsGridFull ()) {
+				Console.Error.WriteLine ("grid full foo");
 				return true;
 			}
 			return false;
@@ -67,21 +84,6 @@ namespace ArenivarConnectFourPlayer
 				Console.Error.WriteLine ("MakeMove function error: column passed to function not valid or grid is full, col number: {0}", col);
 				return false;
 			}
-			/*if (col >= this.Width) 
-			{
-				Console.Error.WriteLine ("column {0} is greater than width", col);
-				return false;
-			}
-			if (!this.IsItValidMove(col)) 
-			{
-				Console.Error.WriteLine ("not valid move");
-				return false;
-			}
-			if (this.IsGridFull()) 
-			{
-				Console.Error.WriteLine ("grid is full");
-				return false;
-			}*/
 			for (int i = this.Height-1; i >= 0; i--) 
 			{
 				if (this.Grid[col] [i] == 0) 
@@ -152,6 +154,7 @@ namespace ArenivarConnectFourPlayer
 				for (int col = 0; col < this.Width; col++) {
 					tempPoints = this.cellScore (row, col, GameUtilities.Direction.Vertical);
 					if (tempPoints == this.WinningScore) {
+						Console.Error.WriteLine (" and first values of row {0} and column {1}", row, col);
 						return this.WinningScore;
 					} else if (tempPoints == -this.WinningScore) {
 						return -this.WinningScore;
@@ -165,6 +168,7 @@ namespace ArenivarConnectFourPlayer
 				for (int row = (this.Height - 1); row > -1; row--) {
 					tempPoints = this.cellScore(row, col, GameUtilities.Direction.Horizontal);
 					if (tempPoints == this.WinningScore) {
+						Console.Error.WriteLine (" and second ");
 						return this.WinningScore;
 					} else if (tempPoints == -this.WinningScore) {
 						return -this.WinningScore;
@@ -178,6 +182,7 @@ namespace ArenivarConnectFourPlayer
 				for (int col = 0; col < (this.Width - 3); col++) {
 					tempPoints = this.cellScore (row, col, GameUtilities.Direction.RightDiagonalUp);
 					if (tempPoints == this.WinningScore) {
+						Console.Error.WriteLine (" and third ");
 						return this.WinningScore;
 					} else if (tempPoints == -this.WinningScore) {
 						return -this.WinningScore;
@@ -191,6 +196,7 @@ namespace ArenivarConnectFourPlayer
 				for (int col = 0; col < (this.Width - 3); col++) {
 					tempPoints = this.cellScore (row, col, GameUtilities.Direction.RightDiagonalDown);
 					if (tempPoints == this.WinningScore) {
+						Console.Error.WriteLine (" and fourth ");
 						return this.WinningScore;
 					} else if (tempPoints == -this.WinningScore) {
 						return -this.WinningScore;

@@ -8,21 +8,7 @@ namespace ArenivarConnectFourPlayer
 	{
 		public static void Main (string[] args)
 		{
-			// we only need to check once if we're making the first move
-			bool checkFirstMove = false;
 			string gameStateData;
-			/* TODO: only a temporary variable, remove after logic for
-			 * the alpha-pruning algorithm is implemented!
-			 * */
-			Random rnd = new Random();
-			int chosenCol;
-
-
-			//Config.DepthSearch = 4;
-			//int m = int.MaxValue;
-			//int mi = int.MinValue;
-			//Console.Error.WriteLine ("max value = {0}  ---   min value = {1} and deotp = {2}", m, mi, Config.DepthSearch);
-
 			string json = @"{
 			'grid': [
 					[0,0,0,0,0,0],
@@ -31,38 +17,34 @@ namespace ArenivarConnectFourPlayer
 					[0,0,0,0,0,0],
 					[0,0,0,0,0,0],
 					[0,0,0,0,0,0],
-					[0,0,0,2,2,2]
+					[0,0,0,0,0,0]
 					],
 			'height':6,
 			'player':2,
 			'width':7
 			}";
-			//GameState gm2 = JsonConvert.DeserializeObject<GameState> (json);
-			//GameUtilities.selfPlayerNum = gm2.Player;
-			//int v = gm2.CalculateScore ();
-			//int gridvalue = GameUtilities.getGridScore (gm2);
-			//GameState gm3 = GameUtilities.DeepCopy<GameState> (gm2);//new GameState (gm2.Grid, gm2.Height, gm2.Width, gm2.Player);
-			//Move m = GameUtilities.MaximizeValue(gm2, Config.SearchDepth, GameUtilities.AlphaInitialValue, GameUtilities.BetaInitialValue);
-			//bool full = gm2.IsGridFull();
-			//Move g = GameUtilities.calculateMove(int.MinValue, int.MaxValue, Config.SearchDepth, gm3);
-			//Console.Error.WriteLine ("is it full? " + GameUtilities.IsGridFull(gm2));
-			//GameState gm3 = GameUtilities.MakeMove (gm2, 0);
-			//bool gameover = GameUtilities.CheckGameOver (gm2);
-			//Console.Error.WriteLine ("is it full? " + GameUtilities.IsGridFull(gm2));
-			//int value = GameUtilities.getGridScore (gm2);
-			//gm2.MakeMove (2);
-			//gm2.MakeMove (2);
-			//gm2.MakeMove (0);
-			//Console.Error.WriteLine ("is it full? " + GameUtilities.IsGridFull (gm2));
-			//Move g = GameUtilities.calculateMove (int.MinValue, int.MaxValue, Config.SearchDepth, gm2);
-			//Console.Error.WriteLine ("is it full? " + GameUtilities.IsGridFull(gm2));
-		
+
+
+			/*
+			GameState gm2 = JsonConvert.DeserializeObject<GameState> (json);
+			GameUtilities.selfPlayerNum = gm2.Player;
+			int v = gm2.CalculateScore ();
+			int gridvalue = GameUtilities.getGridScore (gm2);
+			GameState gm3 = GameUtilities.DeepCopy<GameState> (gm2);//new GameState (gm2.Grid, gm2.Height, gm2.Width, gm2.Player);
+			Move m = GameUtilities.MaximizeValue(gm2, Config.SearchDepth, GameUtilities.AlphaInitialValue, GameUtilities.BetaInitialValue);
+			bool full = gm2.IsGridFull();
+			Move g = GameUtilities.calculateMove(int.MinValue, int.MaxValue, Config.SearchDepth, gm3);
+			*/
+
+
+		///*
 			Console.Error.WriteLine ("Arenivar player starting...");
 
 			while ((gameStateData = Console.ReadLine ()) != null && gameStateData != "") {
-
+				
 				// getting the JSON data into our GameState object
 				GameState gm = JsonConvert.DeserializeObject<GameState>(gameStateData);
+				GameUtilities.selfPlayerNum = gm.Player;
 				Console.Error.WriteLine ("Arenivar player is player ...{0}", gm.Player);
 
 
@@ -94,7 +76,7 @@ namespace ArenivarConnectFourPlayer
 				Console.Out.WriteLine("{\"move\":" + g.ColumnToMoveTo + "}");
 				Console.Out.Flush ();
 		
-			}
+			}  //*/
 		}
 	}
 }
