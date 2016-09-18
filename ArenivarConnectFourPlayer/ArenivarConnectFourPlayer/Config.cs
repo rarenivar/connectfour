@@ -1,4 +1,4 @@
-﻿using System;
+﻿/*using System;
 
 namespace ArenivarConnectFourPlayer
 {
@@ -6,8 +6,5 @@ namespace ArenivarConnectFourPlayer
 	{
 		public const int SearchDepth = 4;
 		public static int SelfPlayerNum;
-		public const int AlphaInitialValue = int.MaxValue;
-		public const int BetaInitialValue = int.MinValue;
 	}
-}
-
+}*/hh

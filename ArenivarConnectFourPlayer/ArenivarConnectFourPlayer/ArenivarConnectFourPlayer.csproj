@@ -41,7 +41,6 @@
     <Compile Include="GameState.cs" />
     <Compile Include="GameUtilities.cs" />
     <Compile Include="Move.cs" />
-    <Compile Include="Config.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

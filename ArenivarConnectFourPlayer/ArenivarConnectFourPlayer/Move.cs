@@ -3,7 +3,8 @@
 namespace ArenivarConnectFourPlayer
 {
 	/// <summary>
-	/// Stores a move and its corresponding value for the Alpha-Pruning
+	/// Object that contains two properties,  a move and its corresponding value for
+	/// the Alpha-Beta prunning algorithm
 	/// algorithm
 	/// </summary>
 	public class Move
