@@ -1,3 +1,4 @@
+## files to ignore
 connect-four-naive
 *.txt
 *.rkt~
@@ -6,10 +7,10 @@ connect-four-naive
 *.exe
 *.exe.mdb
 
-## competitors
+## competitors directory
 other_student_players/
 
-## binary files
+## binary files directory
 ArenivarConnectFourPlayer/ArenivarConnectFourPlayer/bin/
 ArenivarConnectFourPlayer/ArenivarConnectFourPlayer/obj/
 
