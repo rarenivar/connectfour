@@ -29,7 +29,7 @@ namespace ArenivarConnectFourPlayer
 		// How many levels down the tree we will go down. The algorithm will make 'better'
 		// moves the higher this number gets, but the higher the number the more processing
 		// time it takes to calculate a move
-		public const int SearchDepth = 8;
+		public const int SearchDepth = 1;
 
 		// Enum use to differenciate the different ways we need to check each grid cell
 		// to figure out its value
@@ -66,8 +66,8 @@ namespace ArenivarConnectFourPlayer
 			Move maxMove;
 			// Keeps track of how valuable this grib state is
 			int score = gm.CalculateScore ();
-			// If the grid is full, we have a winning score or we've reach our depth limit, return a 
-			// this move
+			// If the grid is full, we have a winning score or we've reach our depth limit, 
+			//return a this move
 			if (gm.IsCheckingDone (searchDepth, score)) {
 				return new Move (-1, score);
 			}
@@ -77,11 +77,12 @@ namespace ArenivarConnectFourPlayer
 			// Need to go through all columns
 			for (int col = 0; col < gm.Width; col++) {
 				GameState tempgm = GameUtilities.DeepCopy<GameState> (gm);
-				// If we can insert into this column, we'll call the minimize function and update
-				// the alpha and maxMove if needed
+				// If we can insert into this column, we'll call the minimize function and 
+				// update the alpha and maxMove if needed
 				if (tempgm.InsertIntoGrid (col)) {
 					Move tempMove = MinimizeValue (tempgm, (searchDepth - 1), alpha, beta);
-					if (tempMove.MoveValue > maxMove.MoveValue || maxMove.ColumnToMoveTo == -1) {
+					if (tempMove.MoveValue > maxMove.MoveValue || 
+															maxMove.ColumnToMoveTo == -1) {
 						alpha = tempMove.MoveValue;
 						maxMove.ColumnToMoveTo = col;
 						maxMove.MoveValue = tempMove.MoveValue;
@@ -100,12 +101,13 @@ namespace ArenivarConnectFourPlayer
 		/// <param name="searchDepth">How many levels to look down</param>
 		/// <param name="alpha">Alpha value</param>
 		/// <param name="beta">Beta value</param>
-		public static Move MinimizeValue(GameState gm, int searchDepth, int alpha, int beta) {
+		public static Move MinimizeValue(GameState gm, int searchDepth, 
+																int alpha, int beta) {
 			Move minMove;
 			// Keeps track of how valuable this grib state is
 			int score = gm.CalculateScore ();
-			// If the grid is full, we have a winning score or we've reach our depth limit, return a 
-			// this move
+			// If the grid is full, we have a winning score or we've reach our depth limit, 
+			// return a this move
 			if (gm.IsCheckingDone(searchDepth, score)) {
 				return new Move(-1, score);
 			}
@@ -115,11 +117,12 @@ namespace ArenivarConnectFourPlayer
 			// Need to go through all columns
 			for (int col = 0; col < gm.Width; col++) {
 				GameState tempgm = GameUtilities.DeepCopy<GameState> (gm);
-				// If we can insert into this column, we'll call the maximize function and update
-				// the beta and minMove if needed
+				// If we can insert into this column, we'll call the maximize function and 
+				// update the beta and minMove if needed
 				if (tempgm.InsertIntoGrid (col)) {
 					Move tempMove = MaximizeValue (tempgm, (searchDepth - 1), alpha, beta);
-					if (tempMove.MoveValue < minMove.MoveValue || minMove.ColumnToMoveTo == -1) {
+					if (tempMove.MoveValue < minMove.MoveValue || 
+															minMove.ColumnToMoveTo == -1) {
 						beta = tempMove.MoveValue;
 						minMove.ColumnToMoveTo = col;
 						minMove.MoveValue = tempMove.MoveValue;

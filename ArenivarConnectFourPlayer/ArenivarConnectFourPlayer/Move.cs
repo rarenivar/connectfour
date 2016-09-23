@@ -9,9 +9,8 @@
 namespace ArenivarConnectFourPlayer
 {
 	/// <summary>
-	/// Object that contains two properties,  a move and its corresponding value for
+	/// Object that contains two properties, a move and its corresponding value for
 	/// the Alpha-Beta prunning algorithm
-	/// algorithm
 	/// </summary>
 	public class Move
 	{
@@ -25,4 +24,3 @@ namespace ArenivarConnectFourPlayer
 		public int MoveValue { get; set; }
 	}
 }
-

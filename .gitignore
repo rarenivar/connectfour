@@ -1,3 +1,15 @@
 connect-four-naive
 *.txt
 *.rkt~
+*.userprefs
+*.usertasks
+*.exe
+*.exe.mdb
+
+## competitors
+other_student_players/
+
+## binary files
+ArenivarConnectFourPlayer/ArenivarConnectFourPlayer/bin/
+ArenivarConnectFourPlayer/ArenivarConnectFourPlayer/obj/
+

@@ -11,8 +11,14 @@
 ;;; specified two different ways: (1) Player 1 uses the compiled naive player
 ;;; program, and (2) Player 2 uses the naive player source code interpreted by
 ;;; Racket.
-(define exe-1 "connect-four-naive")
-(define args-1 "")
+;;(define exe-1 "connect-four-naive")
+;;(define args-1 "")
+;;(define exe-1 "/usr/bin/java")
+;;(define args-1 "ConnectFourAI")
+;;(define exe-1 "/usr/bin/python3.5")
+;;(define args-1 "connect-four-abprune-1.py")
+(define exe-1 "/usr/bin/mono")
+(define args-1 "/home/ramiro/schoolprojects/connectfour/ArenivarConnectFourPlayer/ArenivarConnectFourPlayer/bin/Debug/ArenivarConnectFourPlayer.exe")
 (define exe-2 "/usr/bin/mono")
 (define args-2 "/home/ramiro/schoolprojects/connectfour/ArenivarConnectFourPlayer/ArenivarConnectFourPlayer/bin/Debug/ArenivarConnectFourPlayer.exe")
 
@@ -152,7 +158,7 @@
   (values first-player outcome moves))
 
 ;;; Head-to-head play with statistics
-(define (head-to-head (n 10))
+(define (head-to-head (n 50))
   ;; N games with Player 1 as first player
   (define player-1-results
     (for/list ((i (in-range n)))

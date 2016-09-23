@@ -52,10 +52,12 @@ namespace ArenivarConnectFourPlayer
 		}
 
 		/// <summary>
-		/// Helper function used in the maximize and minimize functions to halt the recursion if 
-		/// we've reach our depth limit, the grid is full or there is a winning or losing state
+		/// Helper function used in the maximize and minimize functions to halt the 
+		/// recursion if we've reach our depth limit, the grid is full or there is a winning
+		/// or losing state
 		/// </summary>
-		/// <returns><c>true</c> If any of the previuosly stated conditions are true; otherwise <c>false</c>.</returns>
+		/// <returns><c>true</c> If any of the previuosly stated conditions are true; 
+		/// otherwise <c>false</c>.</returns>
 		/// <param name="searchDepth">Search depth value</param>
 		/// <param name="theScore">The current score of the grid</param>
 		public bool IsCheckingDone(int searchDepth, int theScore) {
@@ -69,7 +71,8 @@ namespace ArenivarConnectFourPlayer
 		/// <summary>
 		/// Helper function to make a move on the ConnectFour grid
 		/// </summary>
-		/// <returns><c>true</c> If we were able to make the move into the column passed, <c>false</c> otherwise.</returns>
+		/// <returns><c>true</c> If we were able to make the move into the column passed, 
+		/// <c>false</c> otherwise.</returns>
 		/// <param name="col">Col.</param>
 		public bool InsertIntoGrid(int col) {
 			if (col >= this.Width || this.IsGridFull() || !this.IsItValidMove(col)) {
@@ -139,7 +142,8 @@ namespace ArenivarConnectFourPlayer
 						row += 1;
 						break;
 					default:
-						Console.Error.WriteLine ("Error in 'CellScore' function, invalid direction enum passed!");
+						Console.Error.WriteLine ("Error in 'CellScore' function, invalid " +
+																	"direction enum passed!");
 						break;
 				}
 			}
@@ -179,7 +183,8 @@ namespace ArenivarConnectFourPlayer
 			// Checking the horizontal connect four
 			for (int col = 0; col < (this.Width - 3); col++) {
 				for (int row = (this.Height - 1); row > -1; row--) {
-					tempPoints = this.cellScore(row, col, GameUtilities.Direction.Horizontal);
+					tempPoints = this.cellScore(row, col, 
+													GameUtilities.Direction.Horizontal);
 					if (tempPoints == this.WinningScore) {
 						return this.WinningScore;
 					} else if (tempPoints == -this.WinningScore) {
@@ -191,7 +196,8 @@ namespace ArenivarConnectFourPlayer
 			// Checking the right diagonal up winning position
 			for (int row = (this.Height -1); row > 2; row--) {
 				for (int col = 0; col < (this.Width - 3); col++) {
-					tempPoints = this.cellScore (row, col, GameUtilities.Direction.RightDiagonalUp);
+					tempPoints = this.cellScore (row, col, 
+													GameUtilities.Direction.RightDiagonalUp);
 					if (tempPoints == this.WinningScore) {
 						return this.WinningScore;
 					} else if (tempPoints == -this.WinningScore) {
@@ -203,7 +209,8 @@ namespace ArenivarConnectFourPlayer
 			// Checking the right diagonal down winning position
 			for (int row = 0; row < (this.Height - 3); row++) {
 				for (int col = 0; col < (this.Width - 3); col++) {
-					tempPoints = this.cellScore (row, col, GameUtilities.Direction.RightDiagonalDown);
+					tempPoints = this.cellScore (row, col, 
+												  GameUtilities.Direction.RightDiagonalDown);
 					if (tempPoints == this.WinningScore) {
 						return this.WinningScore;
 					} else if (tempPoints == -this.WinningScore) {
